@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "clena-django"
+version = "0.1.0"
+description = ""
+authors = ["jenz0000 <2025.jenz@gmail.com>"]
+readme = "README.md"
+packages = [{include = "clena_django"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Django = "3.2"
+python-dotenv = "^0.21.1"
+djangorestframework = "^3.14.0"
+pyjwt = "^2.6.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
