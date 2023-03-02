@@ -1,0 +1,5 @@
+.env
+poetry.lock
+__paycache__/
+migrations/
+db.sqlite3
