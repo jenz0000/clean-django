@@ -34,7 +34,7 @@ def api_exception_handler(exc, context, request):
 
     payload = {
         "data": getattr(exc, "data", {}),
-        "code": getattr(exc, "code", CODE.INVALID_PARAMETERS),
+        "code": getattr(exc, "code", CODE.INVALID_FORMAT),
         "status": getattr(exc, "status_code", status.HTTP_400_BAD_REQUEST),
     }
 
@@ -44,6 +44,6 @@ def api_exception_handler(exc, context, request):
 class ApiException(APIException):
     def __init__(self, **kwargs):
         self.status_code = kwargs.get("status", status.HTTP_400_BAD_REQUEST)
-        self.code = kwargs.get("code", CODE.INVALID_PARAMETERS)
+        self.code = kwargs.get("code", CODE.INVALID_FORMAT)
         self.data = kwargs.get("data", {})
         self.detail = kwargs.get("detail", "")

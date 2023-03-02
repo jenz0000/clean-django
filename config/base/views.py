@@ -11,6 +11,7 @@ from rest_framework import viewsets, status
 # project
 from config.constants import CODE
 from config.exception import ApiException
+from config.base.serializers import BaseSerializer
 
 
 class BaseViewSet(viewsets.ViewSet, abc.ABC):
@@ -24,6 +25,6 @@ class BaseViewSet(viewsets.ViewSet, abc.ABC):
 
         serializer = self.serializer(data=request.data, required_fields=required_fields)
         if not serializer.is_valid():
-            raise ApiException(code=CODE.INVALID_PARAMETERS)
+            raise ApiException(code=CODE.INVALID_FORMAT)
 
         return serializer.validated_data
