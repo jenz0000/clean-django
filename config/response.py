@@ -7,7 +7,7 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
 # project
-from config.constants import CODE
+from config.constants import MESSAGE
 
 
 def create_response(**kwargs) -> Response:
@@ -15,12 +15,11 @@ def create_response(**kwargs) -> Response:
     status_code = kwargs.get("status", status.HTTP_200_OK)
 
     data = kwargs.get("data", {})
-    code = kwargs.get("code", CODE.SUCCESS)
+    message = kwargs.get("message", MESSAGE.SUCCESS)
 
     response = {}
     response["data"] = data
-    response["code"] = code[0]
-    response["message"] = code[1]
-    response["success"] = code == CODE.SUCCESS
+    response["message"] = message
+    response["success"] = message == MESSAGE.SUCCESS
 
     return Response(response, status=status_code, headers=headers)

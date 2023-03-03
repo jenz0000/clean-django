@@ -18,6 +18,7 @@ class User(AbstractUser, BaseModel):
     REQUIRED_FIELDS = []
 
     email = models.EmailField(unique=True)
+    nickname = models.CharField(unique=True, max_length=15)
 
     class Meta:
         db_table = "user"

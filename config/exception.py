@@ -8,8 +8,8 @@ from django.conf import settings
 from rest_framework import status
 from rest_framework.exceptions import APIException
 
-# project
-from config.constants import CODE
+# config
+from config.constants import MESSAGE
 from config.response import create_response
 
 
@@ -24,7 +24,7 @@ def global_exception_handler(exc, context):
 
     return create_response(
         status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        code=CODE.UNKNOWN_SEVER_ERROR,
+        message=MESSAGE.UNKNOWN_SEVER_ERROR,
     )
 
 
@@ -34,7 +34,7 @@ def api_exception_handler(exc, context, request):
 
     payload = {
         "data": getattr(exc, "data", {}),
-        "code": getattr(exc, "code", CODE.INVALID_FORMAT),
+        "message": getattr(exc, "message", MESSAGE.INVALID_FORMAT),
         "status": getattr(exc, "status_code", status.HTTP_400_BAD_REQUEST),
     }
 
@@ -44,6 +44,6 @@ def api_exception_handler(exc, context, request):
 class ApiException(APIException):
     def __init__(self, **kwargs):
         self.status_code = kwargs.get("status", status.HTTP_400_BAD_REQUEST)
-        self.code = kwargs.get("code", CODE.INVALID_FORMAT)
+        self.message = kwargs.get("message", MESSAGE.INVALID_FORMAT)
         self.data = kwargs.get("data", {})
         self.detail = kwargs.get("detail", "")

@@ -9,7 +9,7 @@ from django.http import HttpRequest, HttpResponse
 from rest_framework import viewsets, status
 
 # project
-from config.constants import CODE
+from config.constants import MESSAGE
 from config.exception import ApiException
 from config.base.serializers import BaseSerializer
 
@@ -20,11 +20,13 @@ class BaseViewSet(viewsets.ViewSet, abc.ABC):
     def serializer(self) -> BaseSerializer:
         pass
 
-    def validate_request(self, request: HttpRequest, **kwargs) -> Dict:
-        required_fields = kwargs.get("required_fields", [])
+    def validate_request(self, request: HttpRequest, **kwargs) -> bool:
+        fields = kwargs.get("fields", [])
 
-        serializer = self.serializer(data=request.data, required_fields=required_fields)
-        if not serializer.is_valid():
-            raise ApiException(code=CODE.INVALID_FORMAT)
+        self.serializer = self.serializer(data=request.data, fields=fields)
+        if not self.serializer.is_valid():
+            raise ApiException(code=MESSAGE.INVALID_FORMAT)
 
-        return serializer.validated_data
+        self.data = self.serializer.validated_data
+
+        return True

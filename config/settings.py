@@ -29,7 +29,6 @@ INSTALLED_APPS = [
     "rest_framework",
     # app
     "app.users",
-    "app.articles",
 ]
 
 MIDDLEWARE = [
@@ -87,7 +86,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_MESSAGE = "en-us"
 
 TIME_ZONE = "UTC"
 

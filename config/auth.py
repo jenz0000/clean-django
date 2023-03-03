@@ -12,7 +12,7 @@ from rest_framework import status
 from rest_framework.authentication import BaseAuthentication
 
 # project
-from config.constants import CODE, TOKEN
+from config.constants import MESSAGE, TOKEN
 from config.exception import ApiException
 
 
@@ -54,7 +54,7 @@ def auth_required(f):
     @functools.wraps(f)
     def wrap(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            raise ApiException(code=CODE.AUTH_REQUIRED, status=status.HTTP_401_UNAUTHORIZED)
+            raise ApiException(code=MESSAGE.AUTH_REQUIRED, status=status.HTTP_401_UNAUTHORIZED)
 
         return f(self, request, *args, **kwargs)
 

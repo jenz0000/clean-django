@@ -1,19 +1,27 @@
 # django
+from django.db import IntegrityError
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import ugettext_lazy as _
 
+# config
+from config.constants import MESSAGE
+from config.exception import ApiException
+
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password, **extra_fields):
-        if not email:
-            raise ValueError(_("The Email must be set"))
-
-        email = self.normalize_email(email)
-
-        user = self.model(email=email, **extra_fields)
-
+    def create_user(self, email, password, nickname, **extra_fields):
+        user = self.model(email=email, nickname=nickname, **extra_fields)
         user.set_password(password)
-        user.save()
+
+        try:
+            user.save()
+        except IntegrityError as e:
+            e = str(e)
+
+            if "email" in e:
+                raise ApiException(message=MESSAGE.EMAIL_ALREADY_IN_USE)
+            elif "nickname" in e:
+                raise ApiException(message=MESSAGE.NICKNAME_ALREADY_IN_USE)
 
         return user
 
